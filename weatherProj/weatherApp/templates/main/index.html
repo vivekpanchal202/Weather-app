@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik+Doodle+Shadow&family=Rubik+Glitch&display=swap" rel="stylesheet">
+    <title>Weather App</title>
+
+    <style>
+        body {
+            font-family: "Arial", sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: "Rubik Doodle Shadow";
+        }
+
+        .header h1{
+            text-shadow: 1px 1px 1px rgb(32, 26, 26);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;   
+        }
+
+        .nav{
+            padding: 30px ;
+            background-color: #4C4C6D;
+        }
+
+        .nav h2{
+            text-align: center;
+            margin: 10px;
+            padding: 2px;
+            color: #ccc;
+            text-shadow: 1px 4px 10px rgb(0, 0, 0);
+        }
+
+        .input-group{
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            flex-direction: column;
+        }
+        
+        .nav input {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 50%;
+            border-radius: 10px;
+            box-shadow: 10px 10px 10px black;
+        }
+        
+        .nav button {
+            padding: 8px 12px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            box-shadow: 10px 10px 10px black;
+
+        }
+
+        .result{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #4C4C6D;
+            padding: 20px;
+        }
+
+        .card {
+            margin-top: 20px;
+            /* border: 1px solid #ddd; */
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .badge {
+            background-color: #007bff;
+            color: #fff;
+            padding: 5px 10px;
+            margin-right: 5px;
+            border-radius: 4px;
+        }
+
+        .image {
+            width: 100px;
+        }
+    </style>
+  </head>
+
+  <body>
+      <div class="header">
+        <h1>Weather App</h1>
+        
+        <img
+          src="{% static 'images/weather.png' %}"
+          alt="Weather Icon"
+          class="image"
+        />
+      </div>
+
+        <div class="nav">
+            <form method="post" class="form">
+            {% csrf_token %}
+            <div class="input-group">
+                    <h2 class="text">Find weather of your city</h2>
+                    <input
+                        type="text"
+                        class="form-control"
+                        name="city"
+                        placeholder="Choose Your City ..."
+                        />
+                    <div class="input-group-btn">
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    <div class="result">
+        <section class="container">
+      {% if country_code and coordinate and temp and pressure and humidity %}
+      <div class="card">
+        <div class="card-body">
+          <h4>
+            <span class="badge badge-primary">Country Code :</span>
+            {{country_code}}
+          </h4>
+          <h4>
+            <span class="badge badge-primary">Coordinates [X,Y] :</span>
+            {{coordinate}}
+          </h4>
+          <h4>
+            <span class="badge badge-primary">Temperature in Celsius :</span>
+            {{temp}}
+          </h4>
+          <h4>
+            <span class="badge badge-primary">Pressure :</span> {{pressure}}
+          </h4>
+          <h4>
+            <span class="badge badge-primary">Humidity :</span> {{humidity}}
+          </h4>
+          <h4>
+            <span class="badge badge-primary">Forecast :</span> {{main}}
+            <img
+              src="http://openweathermap.org/img/w/{{icon}}.png"
+              alt="Weather Icon"
+            />
+          </h4>
+          <h4>
+            <span class="badge badge-primary">Description :</span>
+            {{description}}
+          </h4>
+        </div>
+      </div>
+    </section>
+    </div>
+      {% endif %}
+  </body>
+</html>
